@@ -26,7 +26,7 @@ jobs:
         with:
           servers: |
             [{
-              "id": "maven-releases",
+              "id": "nexus",
               "username": "${{ secrets.SONATYPE_USER }}",
               "password": "${{ secrets.SONATYPE_PASS }}"
             }]
