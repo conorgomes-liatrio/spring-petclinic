@@ -22,7 +22,7 @@ jobs:
       - name: Setup Maven Action
         uses: s4u/setup-maven-action@v1.18.0
       - name: auth
-        if: steps.auth.outcome == 'success'
+        if: steps.auth.outcome != 'failure'
         uses: s4u/maven-settings-action@v3.0.0
         with:
           servers: |
