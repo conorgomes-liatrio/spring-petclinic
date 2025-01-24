@@ -21,15 +21,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup Maven Action
         uses: s4u/setup-maven-action@v1.18.0
-      - name: Auth maven
-        uses: s4u/maven-settings-action@v3.0.0
-        with:
-          servers: |
-            [{
-              "id": "nexus",
-              "username": "${{ secrets.SONATYPE_USER }}",
-              "password": "${{ secrets.SONATYPE_PASS }}"
-            }]
+      # - name: Auth maven
+      #   uses: s4u/maven-settings-action@v3.0.0
+      #   with:
+      #     servers: |
+      #       [{
+      #         "id": "nexus",
+      #         "username": "${{ secrets.SONATYPE_USER }}",
+      #         "password": "${{ secrets.SONATYPE_PASS }}"
+      #       }]
       # - name: Set up JDK ${{matrix.java}}
       #   uses: actions/setup-java@v4
       #   with:
@@ -39,5 +39,7 @@ jobs:
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
       - name: Upload
-        run: mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus -Durl=http://172.16.71.137:8081/repository/maven-releases -DpomFile=pom.xml -Dfile=target/spring-petclinic-3.1.0-SNAPSHOT.jar
+        run: curl -v -u ${{ secrets.SONATYPE_USER }}:${{ secrets.SONATYPE_PASS }} --upload-file target/spring-petclinic-3.1.0-SNAPSHOT.jar http://172.16.71.137:8081/repository/maven-releases/spring-petclinic-3.1.0-SNAPSHOT.jar
+      # - name: Upload
+      #   run: mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus -Durl=http://172.16.71.137:8081/repository/maven-releases -DpomFile=pom.xml -Dfile=target/spring-petclinic-3.1.0-SNAPSHOT.jar
         
